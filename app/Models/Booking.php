@@ -21,6 +21,7 @@ class Booking extends Model
     {
         return $this->belongsTo(Field::class);
     }
+    
 
     public function fieldHistories()
     {

@@ -20,9 +20,10 @@
                     <a href="{{ route('fields.show', $field->id) }}" class="h4 d-inline-block mb-3">{{ $field->field_title }}</a>
                     <p class="mb-4">{{ $field->field_description }}</p>
                     <div class="d-flex align-items-center">
-                        
+
                         <div class="ms-3">
-                            <h5>{{ $field->sportType->sport_type }}</h5>
+                            <h5>{{ $field->sportType ? $field->sportType->sport_type : 'N/A' }}</h5>
+
                         </div>
                     </div>
                 </div>

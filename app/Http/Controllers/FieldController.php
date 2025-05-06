@@ -24,8 +24,8 @@ class FieldController extends Controller
      */
     public function create()
     {
- 
-    $sports = Sport_type::all(); 
+
+    $sports = Sport_type::all();
     $fields = Field_type::all();
     return view('Dashboard.fields.create', ['sports' => $sports, 'fields' => $fields]);
 
@@ -41,13 +41,13 @@ class FieldController extends Controller
             'field_description' => 'required|string',
             'field_location' => 'required|string|max:255',
             'field_price' => 'required|numeric',
-            'sport_type_id' => 'required|exists:sport_types,id',  
+            'sport_type_id' => 'required|exists:sport_types,id',
         'field_type_id' => 'required|exists:field_types,id',
-            'opens_at' => 'nullable|date_format:H:i',  
-        'closes_at' => 'nullable|date_format:H:i',  
-        'is_24_hours' => 'nullable|boolean',  
+            'opens_at' => 'nullable|date_format:H:i',
+        'closes_at' => 'nullable|date_format:H:i',
+        'is_24_hours' => 'nullable|boolean',
         ]);
-    
+
 
         $validatedData['field_avilable'] = 0;
 
@@ -107,6 +107,12 @@ class FieldController extends Controller
      */
     public function update(Request $request,$id)
     {
+        $request->validate([
+    'opens_at' => 'required|date_format:H:i',
+    'closes_at' => 'required|date_format:H:i',
+]);
+
+
           $field = Field::findOrFail($id);
 $validatedData = $request->validate([
     'field_name' => 'required|string|max:255',
@@ -141,7 +147,7 @@ $validatedData = $request->validate([
         foreach ($request->file('field_images') as $file) {
             $filename = time() . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
             $path = $file->move(public_path('landing/img'), $filename);
-            
+
             Field_images::create([
                 'field_images' => 'landing/img/' . $filename,
                 'field_id' => $field->id,

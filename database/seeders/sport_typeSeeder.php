@@ -13,6 +13,6 @@ class sport_typeSeeder extends Seeder
      */
     public function run(): void
     {
-        sport_type::factory()->count(14)->create();
+        sport_type::factory()->count(5)->create();
     }
 }

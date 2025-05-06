@@ -16,7 +16,7 @@
                     <p class="card-text"><strong >Description:</strong> {{ $field->field_description }}</p>
                     <p class="card-text"><strong>Location:</strong> {{ $field->field_location }}</p>
                     <p class="card-text"><strong>Price:</strong> ${{ $field->field_price }}</p>
-                    <p class="card-text"><strong>Sport Type:</strong> {{ $field->sportType->sport_type }}</p>
+                    <p class="card-text"><strong>Sport Type:</strong> {{ $field->sportType ? $field->sportType->sport_type : 'No sport type available' }}</p>
                     <p class="card-text"><strong>Field Type:</strong> {{ $field->fieldType->field_type }}</p>
                       <p class="card-text"><strong>Opening At :</strong> {{ \Carbon\Carbon::parse($field->opens_at)->format('g:i A') }}</p>
                     <p class="card-text"><strong>Closing At :</strong> {{ \Carbon\Carbon::parse($field->closes_at)->format('g:i A') }}</p>

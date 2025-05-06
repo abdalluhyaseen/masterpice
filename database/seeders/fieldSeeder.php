@@ -2,17 +2,25 @@
 
 namespace Database\Seeders;
 
-use App\Models\field;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Field;
+use App\Models\Field_images;
+use App\Models\sport_type;
+use App\Models\Field_type;
 use Illuminate\Database\Seeder;
 
-class fieldSeeder extends Seeder
+class FieldSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        field::factory(22)->create();
+        $sportType = sport_type::create(['sport_type' => 'Football']);
+        $fieldType = Field_type::create(['field_type' => 'Outdoor']);
+
+        Field::create([
+            'field_name' => 'Football Field 1',
+            'field_type_id' => $fieldType->id,
+            'sport_type_id' => $sportType->id,
+            'description' => 'A football field.',
+        ]);
     }
 }
+

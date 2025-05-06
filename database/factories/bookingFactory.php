@@ -29,4 +29,4 @@ class bookingFactory extends Factory
             ];
         }
     }
-    
+

@@ -51,14 +51,13 @@
 
 <div class="form-group mb-3">
     <label for="opens_at" class="form-label">Open At</label>
-    <input type="time" name="opens_at" id="opens_at" class="form-control" value="{{ old('opens_at', $field->opens_at) }}" required>
+    <input type="time" name="opens_at" id="opens_at" class="form-control" value="{{ old('opens_at', \Carbon\Carbon::parse($field->opens_at)->format('H:i')) }}" required>
 </div>
 
 <div class="form-group mb-3">
     <label for="closes_at" class="form-label">Close At</label>
-    <input type="time" name="closes_at" id="closes_at" class="form-control" value="{{ old('closes_at', $field->closes_at) }}" required>
-</div>  
-                                <!-- Sport Type -->
+    <input type="time" name="closes_at" id="closes_at" class="form-control" value="{{ old('closes_at', \Carbon\Carbon::parse($field->closes_at)->format('H:i')) }}" required>
+</div>
                                 <div class="form-group mb-3">
                                     <label for="sport_type_id" class="form-label">Sport Type</label>
                                     <select name="sport_type_id" id="sport_type_id" class="form-select" required>

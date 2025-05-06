@@ -23,7 +23,6 @@
             @else
                 <!-- If the user is not authenticated -->
                 <a href="{{ route('login') }}" class="btn btn-primary rounded-pill py-2 px-4 my-3 my-lg-0 flex-shrink-0">Login</a>
-                <a href="{{ route('register') }}" class="btn btn-primary rounded-pill py-2 px-4 my-3 my-lg-0 flex-shrink-0">Register</a>
             @endauth
         </div>
     </nav>

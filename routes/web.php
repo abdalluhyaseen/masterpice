@@ -64,6 +64,8 @@ Route::resource('sport-types', SportTypeController::class);
 
 
 
+Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+
 /////landing_page
 
 
@@ -113,7 +115,7 @@ Route::patch('/update-user', function() {
         'email' => ['required', 'email'],
         'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
         'phone' => ['nullable', 'regex:/^07[0-9]{8}$/'],
-    ]); 
+    ]);
 
 
     $user = Auth::user();

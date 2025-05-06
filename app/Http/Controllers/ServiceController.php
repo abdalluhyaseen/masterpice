@@ -13,26 +13,33 @@ public function index(Request $request)
 {
     $query = Field::with(['fieldImages', 'sportType', 'fieldType']);
 
+    // فلترة حسب نوع الرياضة
     if ($request->filled('sport_type')) {
         $query->whereHas('sportType', function($q) use ($request) {
             $q->where('id', $request->input('sport_type'));
         });
     }
 
+    // فلترة حسب نوع الملعب
     if ($request->filled('field_type')) {
         $query->where('field_type_id', $request->input('field_type'));
     }
 
-    $fields = $query->get();
+    // جلب البيانات بناءً على الاستعلامات
+    $fields = $query->paginate(9); // استخدام الـpaginate لتقسيم النتائج
+
 
     $fieldTypes = Field_type::all();
+    $sportTypes = sport_type::all(); // التأكد من جلب جميع أنواع الرياضات
 
     return view('landing_page.pages.services', [
         'fields' => $fields,
-        'sportTypes' => sport_type::all(),
+        'sportTypes' => $sportTypes,
         'fieldTypes' => $fieldTypes
     ]);
 }
+
+
 
 
 

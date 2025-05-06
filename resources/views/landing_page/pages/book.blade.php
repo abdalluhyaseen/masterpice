@@ -38,18 +38,24 @@
                         </div>
 
                         <!-- Start Time -->
-                        <div class="form-group mb-3">
-                            <label for="start_at" class="form-label">Start Time:</label>
-                            <select name="start_at" id="start_at" class="form-select @error('start_at') is-invalid @enderror" >
-                                <option value="">Select Start Time</option>
-                                @foreach ($availableHours as $hour)
-                                    <option value="{{ $hour }}" {{ old('start_at') == $hour ? 'selected' : '' }}>{{ $hour }}</option>
-                                @endforeach
-                            </select>
-                            @error('start_at')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+<!-- قائمة الأوقات -->
+<div class="form-group mb-3">
+    <label for="start_at" class="form-label">Start Time:</label>
+    <select name="start_at" id="start_at" class="form-select @error('start_at') is-invalid @enderror">
+        <option value="">Select Start Time</option>
+        @foreach ($availableHours as $hour)
+            <option value="{{ $hour }}" {{ old('start_at') == $hour ? 'selected' : '' }}>
+                {{ $hour }}
+            </option>
+        @endforeach
+    </select>
+    @error('start_at')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
+
+
+
 
                         <!-- Duration -->
                         <div class="form-group mb-4">
@@ -70,7 +76,7 @@
                 </div>
             </div>
         </div>
-    </div>  
+    </div>
 </div>
 <!-- Booking Form End -->
 

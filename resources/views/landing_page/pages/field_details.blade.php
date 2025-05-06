@@ -9,7 +9,7 @@
             <li class="breadcrumb-item"><a href="{{ route('Home') }}">Home</a></li>
             <li class="breadcrumb-item"><a href="{{ route('services.index') }}">Fields</a></li>
             <li class="breadcrumb-item active text-primary">{{ $field->field_name }}</li>
-        </ol>    
+        </ol>
     </div>
 </div>
 
@@ -48,10 +48,10 @@
 <p class="mb-4"><strong>Closing At :</strong> {{ \Carbon\Carbon::parse($field->closes_at)->format('g:i A') }}</p>
 
             <p class="mb-4 {{ $field->field_avilable == 0 ? 'text-success' : 'text-danger' }}">{{ $field->field_avilable == 0 ? 'Available' : 'Not Available' }}</p>
-            
-         
+
+
 <a class="btn btn-primary rounded-pill py-2 px-4" href="{{ route('book', ['field_id' => $field->id]) }}">Book Now</a>
-                                           
+
             <a href="{{ route('services.index') }}" class="btn btn-success rounded-pill py-2 px-4">Back to Courts</a>
         </div>
     </div>

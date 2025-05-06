@@ -8,27 +8,20 @@
         <ol class="breadcrumb d-flex justify-content-center mb-0 wow fadeInDown" data-wow-delay="0.3s">
             <li class="breadcrumb-item"><a href="{{ route('Home') }}">Home</a></li>
             <li class="breadcrumb-item active text-primary">Fields</li>
-        </ol>    
+        </ol>
     </div>
 </div>
 
- @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-<!-- Services Start -->
-<div class="container-fluid service py-5">
-    <div class="container py-5">
-        <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-            <h4 class="text-primary">Our Fields</h4>
-            <h1 class="display-5 mb-4">Explore Our Available Fields</h1>
-            <p class="mb-0">Discover a wide range of sports fields available for your activities. From football to tennis, we have the perfect field for your needs.</p>
-        </div>
-        <!-- Filters Start -->
+@if(session('success'))
+    <div class="alert alert-success text-center my-3">
+        {{ session('success') }}
+    </div>
+@endif
+
+<!-- Filters Start -->
 <div class="container py-5">
     <form method="GET" action="{{ route('services.index') }}">
-        <div class="row">
+        <div class="row mb-4">
             <div class="col-md-4">
                 <select class="form-select" name="sport_type" onchange="this.form.submit()">
                     <option value="">Select Sport Type</option>
@@ -55,30 +48,63 @@
         </div>
     </form>
 </div>
-
 <!-- Filters End -->
+
+<!-- Services Start -->
+<div class="container-fluid py-5">
+    <div class="container py-5">
         <div class="row g-4">
-            @foreach($fields as $field)
-                <div class="col-md-6 col-lg-4 wow fadeInUp" >
-                    <div class="service-item" style="display: flex; flex-direction: column; height: 100%;">
-                        <div class="service-img" style="flex: 1;">
+            @forelse($fields as $field)
+                <div class="col-md-6 col-lg-4 wow fadeInUp">
+                    <div class="card h-100 shadow-sm">
+                        <!-- Image Section -->
+                        <div class="card-img-top">
                             @if($field->fieldImages->isNotEmpty())
-                                <img src="{{ asset($field->fieldImages->first()->field_images) }}" class="img-fluid rounded-top" style="height: 200px; object-fit: cover; width: 100%;" alt="{{ $field->field_name }}">
+                                <img src="{{ asset($field->fieldImages->first()->field_images) }}"
+                                     class="img-fluid rounded-top"
+                                     style="height: 200px; object-fit: cover;"
+                                     alt="{{ $field->field_name }}">
                             @else
-                                <img src="{{ asset('landing/img/placeholder.jpg') }}" class="img-fluid rounded-top" style="height: 200px; object-fit: cover; width: 100%;" alt="Placeholder">
+                                <img src="{{ asset('landing/img/placeholder.jpg') }}"
+                                     class="img-fluid rounded-top"
+                                     style="height: 200px; object-fit: cover;"
+                                     alt="Placeholder">
                             @endif
                         </div>
-                        <div class="rounded-bottom p-4" style="flex: 1;">
-                            <a href="#" class="h4 d-inline-block mb-4" style="display: block; font-size: 1.25rem; color: #333;">{{ $field->field_name }}</a>
-                            <p class="mb-4" style="color: #555;"><strong>Field Type :</strong>{{ $field->fieldType-> field_type}}</p>
-                            <p class="mb-4" style="color: #555;"><strong>Sport Type :</strong>{{ $field->sportType-> sport_type}}</p>
-                            <a class="btn btn-primary rounded-pill py-2 px-4" href="{{ route('services.show', $field->id) }}">View Details</a>
-<a class="btn btn-primary rounded-pill py-2 px-4" href="{{ route('book', ['field_id' => $field->id]) }}">Book Now</a>
 
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $field->field_name }}</h5>
+                            <p class="card-text">
+                                <strong>Field Type:</strong> {{ $field->fieldType->field_type }}<br>
+                               <p class="card-text">
+    <strong>Sport Type:</strong>
+    {{ $field->sportType ? $field->sportType->sport_type : 'No sport type available' }}
+</p>
+
+                            </p>
+                            <p class="card-text text-muted">
+                                {{ $field->description ?? 'No description available' }}
+                            </p>
+                        </div>
+
+                        <!-- Card Footer -->
+                        <div class="card-footer text-center">
+                            <a href="{{ route('services.show', $field->id) }}" class="btn btn-primary btn-sm">View Details</a>
+                            <a href="{{ route('book', ['field_id' => $field->id]) }}" class="btn btn-success btn-sm">Book Now</a>
                         </div>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <div class="col-12 text-center">
+                    <p>No fields available.</p>
+                </div>
+            @endforelse
+        </div>
+
+        <!-- Pagination -->
+        <div class="mt-4 d-flex justify-content-center">
+            {{ $fields->links() }}
         </div>
     </div>
 </div>

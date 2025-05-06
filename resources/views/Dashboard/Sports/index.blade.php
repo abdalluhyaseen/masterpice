@@ -5,7 +5,7 @@
         <div class="main-content">
             <div class="section__content section__content--p30">
                 <div class="container-fluid">
-    
+
                     <!-- Success Alert -->
                     @if (session('success'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -15,7 +15,7 @@
                             </button>
                         </div>
                     @endif
-    
+
                     <!-- Table -->
                     <div class="row m-t-30">
                         <div class="col-md-12">
@@ -47,7 +47,7 @@
                                                             <!-- Edit Button -->
                                                             <a href="{{ route('sport-types.edit', $sport_type->id) }}" class="btn btn-sm btn-warning m-r-5">
                                                                 <i class="fas fa-edit"></i>
-                                                            </a>
+                                                            </a><br><br><br>
                                                             <!-- Delete Button -->
                                                             <form action="{{ route('sport-types.destroy', $sport_type->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this type of sport?');" style="display: inline-block;">
                                                                 @csrf
@@ -67,7 +67,7 @@
                             <!-- End Data Table -->
                         </div>
                     </div>
-    
+
                 </div>
             </div>
 
@@ -94,14 +94,14 @@
                             <tr>
                                 <td>{{$sport_type->id}}</td>
                                 <td><img src="{{asset($sport_type->sport_image)}}" alt="sport_image" width="100px" height="100px"></td>
-                                <td>{{$sport_type->sport_type}}</td>    
+                                <td>{{$sport_type->sport_type}}</td>
                                 <td>
                                     <div style="display:flex; flex-direction:row;">
                                         <a href="{{route('sport-types.edit', $sport_type->id )}}" ><button type=submit class="btn btn-info btn-sm"> <i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i> </button></a> <br>
                                         <form action="{{route('sport-types.destroy' , $sport_type->id)}}" method="post">
                                             @csrf
                                             @method('Delete')
-                                            <button type=submit class="btn btn-danger btn-sm"> <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i> </button> 
+                                            <button type=submit class="btn btn-danger btn-sm"> <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i> </button>
                                         </form>
                                     </div>
                                 </td>

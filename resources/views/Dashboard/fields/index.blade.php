@@ -44,7 +44,8 @@
                                                         {{ $field->field_avilable == 0 ? 'Available' : 'Not Available' }}
                                                     </td>
                                                     <td>${{ $field->field_price }}</td>
-                                                    <td>{{ $field->sportType->sport_type }}</td>
+                                                    <td>{{ $field->sportType ? $field->sportType->sport_type : 'No sport type available' }}</td>
+
                                                     <td>{{ $field->fieldType->field_type }}</td>
                                                     <td class="d-flex align-items-center">
                                                         <!-- View Button -->

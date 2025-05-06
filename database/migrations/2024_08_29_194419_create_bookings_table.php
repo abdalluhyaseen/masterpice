@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->decimal('total_price', 8, 2);
             $table->string('status')->default('pending');
-            $table->date('date');
-            $table->time('start_at');  
-            $table->integer('duration'); 
+            $table->date('date')->default(DB::raw('CURRENT_DATE'));
+            $table->dateTime('start_at')->default(DB::raw('CURRENT_TIMESTAMP'));  // يحتفظ بالـ datetime
+            $table->integer('duration')->default(0);
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('field_id')->constrained()->onDelete('cascade');
             $table->timestamps();
