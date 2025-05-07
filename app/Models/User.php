@@ -30,7 +30,8 @@ class User extends Authenticatable
 
     public function fieldHistories()
     {
-        return $this->hasMany(Field_history::class);
+        // return $this->hasMany(Field_history::class);
+         return $this->hasMany(Booking::class);
     }
 
     public function contactUses()

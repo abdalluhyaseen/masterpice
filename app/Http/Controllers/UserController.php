@@ -14,7 +14,7 @@ class UserController extends Controller
 
         return view('Dashboard.users', compact('users'));
     }
-    
+
     public function create()
     {
         return view('Dashboard.create-user');
@@ -75,12 +75,20 @@ class UserController extends Controller
     {
         // Assuming the user is authenticated
         $user = Auth::user();
-    
+
         // Remove the photo (if necessary, set the user's image to null or a default value)
         $user->image = null; // or set a default image URL if preferred
         $user->save();
-    
+
         // Redirect back to profile with success message
         return redirect()->route('profile')->with('success', 'Profile photo removed successfully!');
     }
+
+
+    public function profile()
+{
+    $user = auth()->user();
+    return view('profile', compact('user'));
+}
+
 }

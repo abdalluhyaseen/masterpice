@@ -29,12 +29,12 @@
                                     <label>Name</label>
                                     <h1>{{$user->name}}</h1>
                                 </div>
-                
+
                                 <div class="mb-3">
                                     <label>Email</label>
                                     <h3>{{$user->email}}</h3>
                                 </div>
-                
+
                                 <div class="mb-3">
                                     <label>Phone</label>
                                     <h3>{{$user->phone? $user->phone:'--'}}</h3>
@@ -53,6 +53,36 @@
         </div>
         <!-- About End -->
 
+        <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px; margin-bottom: 20ox; flex-direction: column;">
+            <h2>Your Bookings</h2>
 
+@if($user->bookings->isEmpty())
+    <p>You have no bookings.</p>
+@else
+    <table>
+        <thead>
+            <tr>
+                <th>Field Name</th>
+                <th>Date</th>
+                <th>Start Time</th>
+                <th>Duration</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($user->bookings as $booking)
+                <tr>
+                    <td>{{ $booking->field->field_name }}</td>
+                    <td>{{ $booking->date }}</td>
+                    <td>{{ $booking->start_at }}</td>
+                    <td>{{ $booking->duration }} hours</td>
+                    <td>${{ $booking->total_price }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+@endif
+
+</div>
 
 @stop

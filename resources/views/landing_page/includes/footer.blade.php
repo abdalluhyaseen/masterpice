@@ -58,7 +58,7 @@
         </div>
     </div>
     <!-- Footer End -->
-    
+
     <!-- Copyright Start -->
     <!-- <div class="container-fluid copyright py-4">
         <div class="container">
@@ -89,6 +89,41 @@
 
     <!-- Template Javascript -->
     <script src="{{ asset('landing/js/main.js') }}"></script>
+ <script>
+    @if(isset($field))
+        document.addEventListener('DOMContentLoaded', function () {
+            const dateInput = document.getElementById('date');
+            const startAtSelect = document.getElementById('start_at');
+            const fieldId = {{ $field->id }}; // ID الملعب
+
+            dateInput.addEventListener('change', function () {
+                const selectedDate = dateInput.value;
+
+                if (selectedDate) {
+                    fetch(`/bookings/${fieldId}/available-hours?date=${selectedDate}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            // تحديث الخيارات في الحقل
+                            startAtSelect.innerHTML = '<option value="">Select Start Time</option>';
+
+                            if (data.availableHours && data.availableHours.length > 0) {
+                                data.availableHours.forEach(hour => {
+                                    const option = document.createElement('option');
+                                    option.value = hour;
+                                    option.textContent = hour;
+                                    startAtSelect.appendChild(option);
+                                });
+                            }
+                        });
+                }
+            });
+        });
+    @endif
+</script>
+
+
+
+
 </body>
 
 </html>

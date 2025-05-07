@@ -89,6 +89,14 @@ Route::get('/book/{field_id}', [Book_Page::class, 'index'])->name('book');
 // Route::get('/show-available-times', [BookingController::class, 'showAvailableTimes'])->name('showAvailableTimes');
 
 
+
+Route::post('/contact/store', [ContactUsController::class, 'store'])->name('contact.store');
+
+Route::post('/contact/reply', [ContactUsController::class, 'reply'])->name('contact.reply');
+
+Route::get('/bookings/{fieldId}/available-hours', [BookingController::class, 'getAvailableHours'])->name('bookings.available_hours');
+
+
 ///Dashboard
 Route::get('/dash', function () {
     return view('Dashboard.main');
