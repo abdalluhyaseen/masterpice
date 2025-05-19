@@ -4,15 +4,28 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-    use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 
 class Field extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    protected $guarded = [];
-
+  protected $fillable = [
+    'field_name',
+    'field_description',
+    'field_location',
+    'field_avilable',
+    'opening_time',
+    'field_price',
+    'sport_type_id',
+    'field_type_id'
+];
+protected $casts = [
+    'field_price' => 'float',
+    'field_avilable' => 'boolean',
+];
     // Relationships
     public function sportType()
     {
