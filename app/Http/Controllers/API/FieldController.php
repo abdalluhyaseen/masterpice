@@ -10,24 +10,37 @@ use Illuminate\Http\Request;
 class FieldController extends Controller
 {
 
-  public function index()
-{
-    $fields = Field::with(['sportType', 'fieldType'])->get();
+    public function index()
+    {
+        $fields = Field::with(['sportType', 'fieldType'])->get();
 
-    $fields->each(function ($field) {
-        $field->field_name = $field->field_name ?? '';
-        $field->field_description = $field->field_description ?? '';
-        $field->field_location = $field->field_location ?? '';
-        $field->opening_time = $field->opening_time ?? '';
+        $fields->each(function ($field) {
+            $field->field_name = $field->field_name ?? '';
+            $field->field_description = $field->field_description ?? '';
+            $field->field_location = $field->field_location ?? '';
+            $field->opening_time = $field->opening_time ?? '';
 
-        // تأكد أن field_price مرسلة كرقم (float) وليس كسلسلة نصية
-        $field->field_price = is_numeric($field->field_price)
-            ? (float)$field->field_price
-            : 0.0;
-    });
+            // تأكد أن field_price مرسلة كرقم (float) وليس كسلسلة نصية
+            $field->field_price = is_numeric($field->field_price)
+                ? (float)$field->field_price
+                : 0.0;
 
-    return response()->json($fields);
-}
+            // تحويل الصورة إلى رابط كامل
+            $field->image_url = $field->image
+                ? url(asset('storage/landing/img/' . $field->image))
+                : null;
+
+            // تحويل sport_image إلى رابط كامل
+            if ($field->sportType) {
+                $field->sportType->sport_image = $field->sportType->sport_image
+                    ? url(asset('storage/' . $field->sportType->sport_image))
+                    : null;
+            }
+        });
+
+        return response()->json($fields);
+    }
+
 
     public function store(Request $request)
     {
@@ -38,6 +51,7 @@ class FieldController extends Controller
             'field_avilable' => 'required|boolean',
             'opening_time' => 'nullable|string',
             'field_price' => 'required|numeric',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // تعديل حسب الحاجة
             'sport_type_id' => 'required|exists:sport_types,id',
             'field_type_id' => 'required|exists:field_types,id',
         ]);
@@ -59,10 +73,23 @@ public function availableFields()
                 ->get()
                 ->each(function ($field) {
                     $field->field_price = (float)$field->field_price;
+
+                    // تحويل الصورة إلى رابط كامل
+                    $field->image_url = $field->image
+                        ? url(asset('storage/landing/img/' . $field->image))
+                        : null;
+
+                    // تحويل sport_image إلى رابط كامل
+                    if ($field->sportType) {
+                        $field->sportType->sport_image = $field->sportType->sport_image
+                            ? url(asset('storage/' . $field->sportType->sport_image))
+                            : null;
+                    }
                 });
 
     return response()->json($fields);
 }
+
 
 
 
@@ -91,18 +118,37 @@ public function availableFields()
 
     // في FieldController
 
-public function fieldsBySportType($sportTypeId)
-{
-    try {
-        $fields = Field::where('sport_type_id', $sportTypeId)->get();
-        return response()->json($fields);
-    } catch (\Exception $e) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Failed to fetch fields by sport type'
-        ], 500);
+    public function fieldsBySportType($sportTypeId)
+    {
+        try {
+            $fields = Field::where('sport_type_id', $sportTypeId)
+                            ->with(['sportType', 'fieldType'])
+                            ->get()
+                            ->each(function ($field) {
+                                $field->field_price = (float)$field->field_price;
+
+                                // تحويل الصورة إلى رابط كامل
+                                $field->image_url = $field->image
+                                    ? url(asset('storage/landing/img/' . $field->image))
+                                    : null;
+
+                                // تحويل sport_image إلى رابط كامل
+                                if ($field->sportType) {
+                                    $field->sportType->sport_image = $field->sportType->sport_image
+                                        ? url(asset('storage/' . $field->sportType->sport_image))
+                                        : null;
+                                }
+                            });
+
+            return response()->json($fields);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to fetch fields by sport type',
+            ], 500);
+        }
     }
-}
+
 
 public function availableSlots(Field $field, Request $request)
 {

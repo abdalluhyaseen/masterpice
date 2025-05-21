@@ -75,6 +75,15 @@ class FieldController extends Controller
                     'field_images' => 'landing/img/' . $filename,
                     'field_id' => $field->id,
                 ]);
+
+                $path = $file->store('fields', 'public'); // سيتم حفظ الصورة داخل storage/app/public/fields
+
+                Field_images::create([
+                    'field_images' => $path,
+                    'field_id' => $field->id,
+                ]);
+
+
             }
         }
         return redirect()->route('fields.index')->with('success', 'Field created successfully');
